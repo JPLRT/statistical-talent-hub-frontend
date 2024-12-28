@@ -1,0 +1,79 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+ align-items: center;
+min-height: 80vh;
+}
+
+.login-card {
+   background-color: #fff;
+padding: 20px;
+  border-radius: 8px;
+ box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+ width: 300px;
+  text-align: center;
+}
+.login-card h2{
+margin-bottom: 20px;
+}
+
+.welcome-text{
+margin-bottom: 20px;
+}
+.welcome-heading{
+font-weight: bold;
+color: #007bff;
+margin-bottom: 10px;
+}
+.welcome-description-box{
+background-color: #f0f0f0;
+ border: 1px solid #ddd;
+ padding: 10px;
+ border-radius: 4px;
+  display: inline-block;
+ box-shadow: 2px 2px 4px rgba(0,0,0,0.1)
+}
+.welcome-description{
+margin: 0;
+   font-size: 0.9em;
+}
+.form-group {
+ margin-bottom: 15px;
+  text-align: left;
+}
+.form-group label {
+ display: block;
+ margin-bottom: 5px;
+}
+.form-group input {
+   width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+ border-radius: 4px;
+box-sizing: border-box;
+}
+.login-btn {
+ background-color: #007bff;
+  color: white;
+padding: 10px 15px;
+  border: none;
+ border-radius: 4px;
+  cursor: pointer;
+width: 100%;
+}
+.login-btn:disabled{
+background-color: #999;
+cursor: not-allowed;
+}
+.error-msg {
+ color: red;
+  margin-top: 10px;
+}
+.login-logo{
+  color: #007bff;
+}
+.logo-container{
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
+}

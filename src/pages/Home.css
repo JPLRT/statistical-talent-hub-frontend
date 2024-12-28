@@ -1,0 +1,41 @@
+.home-container {
+  display: flex;
+  width:100%;
+}
+
+.home-sidebar {
+width: 250px;
+  padding: 10px;
+   margin: 10px;
+   border-radius: 8px;
+    background-color: #f9f9f9;
+   }
+.community-link{
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+   background-color: #ddd;
+   color: #333;
+  margin-top: 10px;
+ border-radius: 4px;
+  text-align: center;
+}
+.community-link:hover{
+background-color: #ccc;
+}
+.home-main-content {
+  flex: 1;
+  padding: 10px;
+  margin: 10px;
+background-color: #f0f0f0;
+    overflow-y: auto;
+ }
+.feed-title{
+  text-align: center;
+margin-bottom: 20px;
+  }
+.post-feed{
+  display: flex;
+  flex-direction: column;
+gap: 10px;
+}

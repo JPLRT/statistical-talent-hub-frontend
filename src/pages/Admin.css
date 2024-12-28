@@ -1,0 +1,64 @@
+.admin-container{
+    padding: 10px;
+  }
+.admin-container h1{
+  text-align: center;
+  margin-bottom: 20px;
+ }
+.new-user-form{
+      border: 1px solid #ddd;
+    border-radius: 8px;
+      padding: 15px;
+     background-color: #fff;
+      margin-bottom: 20px;
+ }
+.new-user-form h2{
+      text-align: center;
+   margin-bottom: 10px;
+   }
+.new-user-form form {
+  display: flex;
+  flex-direction: column;
+ gap: 10px;
+}
+.new-user-form form label{
+ text-align: left;
+}
+.new-user-form form input{
+  padding: 8px;
+   border: 1px solid #ddd;
+ border-radius: 4px;
+}
+.new-user-form form button{
+      background-color: #007bff;
+     color: white;
+  border: none;
+     padding: 8px 15px;
+   border-radius: 4px;
+  cursor: pointer;
+}
+.csv-upload{
+ margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+   gap: 10px;
+  }
+.csv-upload h2{
+    text-align: center;
+  }
+.csv-upload input{
+   border: 1px solid #ddd;
+   padding: 8px;
+    border-radius: 4px;
+}
+.csv-upload button{
+  background-color: #ddd;
+    color: #333;
+    border: 1px solid #ddd;
+   border-radius: 4px;
+   padding: 8px 15px;
+  cursor: pointer;
+}
+.csv-upload button:hover{
+  background-color: #ccc;
+}

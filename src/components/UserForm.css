@@ -1,0 +1,33 @@
+.user-form-container{
+    padding: 10px;
+     margin: 10px 0;
+     border: 1px solid #ddd;
+   border-radius: 8px;
+   background-color: #fff;
+   }
+  .user-form{
+    display: flex;
+      flex-direction: column;
+     gap: 10px;
+  }
+ .user-form label{
+    text-align: left;
+}
+ .user-form input{
+ padding: 10px;
+ border-radius: 4px;
+  border: 1px solid #ddd;
+ }
+ .user-form button{
+ background-color: #007bff;
+ color: white;
+    padding: 10px 15px;
+ border: none;
+    border-radius: 4px;
+  cursor: pointer;
+     align-self: flex-start;
+}
+.error-msg{
+  color: red;
+  margin-top: 10px;
+}

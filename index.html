@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Statistical Talent Hub</title>
+    <style>
+       body {
+           font-family: sans-serif;
+            display: flex;
+           align-items: center;
+           justify-content: center;
+           height: 100vh;
+            background-color: #f0f2f5;
+           margin: 0
+       }
+       .login-container {
+        background-color: #ffffff;
+            padding: 20px;
+           border-radius: 8px;
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+       }
+       .login-form label {
+       display: block;
+       margin-bottom: 5px;
+       }
+       .login-form input {
+           width: calc(100% - 20px);
+            padding: 8px;
+           margin-bottom: 10px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+       }
+       .login-form button{
+           width: 100%;
+           background-color: #1877f2;
+           color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+           cursor: pointer;
+       }
+   </style>
+</head>
+<body>
+    <div className="login-container">
+       <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+           Welcome to Statistical Talent Hub
+       </h1>
+   <p className="text-center text-gray-600 mb-4">
+    A community for Alumni and Students of the Department of Statistics,
+    Presidency College (Autonomous), Chennai.
+   </p>
+       <div className="login-form">
+           <label htmlFor="email">Email</label>
+           <input type="email" id="email" name="email" required/>
+           <button id="loginButton">Login</button>
+       </div>
+   </div>
+   <script>
+     const loginButton = document.getElementById('loginButton');
+    loginButton.addEventListener('click', async (event) => {
+         event.preventDefault();
+          const emailInput = document.getElementById('email');
+          const email = emailInput.value;
+           try{
+                console.log("Request Data", {email});
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                      method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({email})
+                   })
+                   const data = await response.json();
+                   console.log("Response from backend", data)
+                   if(response.status === 200 && data.message === "Login successful"){
+                       localStorage.setItem('user', email);
+                       window.location.href = '/home.html';
+                   } else{
+                        console.log("User not found, Contact admin to register")
+                   }
+              }catch(error){
+                   console.log("Error in login", error);
+              }
+       })
+   </script>
+
+</body>
+</html>

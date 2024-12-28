@@ -1,0 +1,94 @@
+/*Post.css*/
+.post-container {
+  border: 1px solid #ddd;
+   border-radius: 8px;
+    padding: 15px;
+   margin: 10px 0;
+ background-color: #fff;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+ transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.post-container:hover {
+  transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.post-header{
+  margin-bottom: 10px;
+     display: flex;
+    align-items: center;
+  justify-content: space-between;
+gap: 10px;
+}
+.post-content{
+   margin-bottom: 10px;
+}
+.post-image {
+      max-width: 100%;
+      height: auto;
+   border-radius: 4px;
+}
+.post-actions{
+     display: flex;
+     gap: 5px;
+  justify-content: flex-start;
+ }
+.post-actions button{
+     border: 1px solid #ddd;
+     border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+     background-color: white;
+}
+.post-actions button:hover{
+     background-color: #f0f0f0;
+}
+.profile-pic-small{
+      width: 30px;
+      height: 30px;
+     border-radius: 50%;
+}
+.user-name-tab {
+     background-color: #e0f7fa;
+     padding: 5px 10px;
+   border-radius: 4px;
+     font-weight: bold;
+    display: inline-block;
+}
+.post-date{
+   position: absolute;
+    right: 10px;
+     bottom: 10px;
+   font-size: 0.8em;
+  color: #555;
+}
+.default-profile-pic {
+   width: 30px;
+    height: 30px;
+     border-radius: 50%;
+   background-color: #ddd;
+  display: flex;
+align-items: center;
+justify-content: center;
+ font-weight: bold;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+  border: none;
+   padding: 5px 10px;
+  border-radius: 4px;
+   cursor: pointer;
+}
+.delete-btn:hover{
+    background-color: #c82333;
+}
+.post-user-details {
+  display: flex;
+    align-items: center;
+     gap: 10px;
+}
+.comment-btn {
+   padding: 5px 8px;
+font-size: 0.8em;
+}

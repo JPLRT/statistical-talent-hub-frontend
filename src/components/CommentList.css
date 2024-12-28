@@ -1,0 +1,10 @@
+.comment-list-container {
+    margin-top: 5px;
+     padding-left: 10px;
+   }
+  .comment-text{
+     background-color: #f0f0f0;
+      border-radius: 4px;
+    padding: 5px 10px;
+      margin-bottom: 5px;
+   }

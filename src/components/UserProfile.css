@@ -1,0 +1,81 @@
+/*UserProfile.css*/
+
+.user-profile-container{
+  padding: 10px;
+   margin: 10px 0;
+}
+.user-profile-card{
+  border: 1px solid #ddd;
+  border-radius: 8px;
+   padding: 15px;
+background-color: white;
+}
+.profile-pic-container{
+ display: flex;
+align-items: center;
+margin-bottom: 10px;
+  justify-content: center;
+}
+.profile-pic{
+    width: 80px;
+     height: 80px;
+   border-radius: 50%;
+}
+.edit-profile-btn {
+  background-color: #007bff;
+  color: white;
+padding: 5px 10px;
+   border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+}
+.image-upload {
+display: flex;
+ align-items: center;
+gap: 10px;
+}
+.image-upload-label {
+background-color: #ddd;
+padding: 5px 10px;
+border-radius: 4px;
+cursor: pointer;
+}
+.image-upload input {
+display: none;
+}
+.preview-image{
+max-width: 200px;
+ height: auto;
+margin-top: 10px;
+}
+.profile-header{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.profile-pic-small{
+width: 30px;
+height: 30px;
+ border-radius: 50%;
+}
+.default-profile-pic {
+ width: 30px;
+height: 30px;
+  border-radius: 50%;
+background-color: #ddd;
+  display: flex;
+ align-items: center;
+justify-content: center;
+   font-weight: bold;
+}
+.user-profile-card form button {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+ border-radius: 4px;
+ padding: 8px 15px;
+  cursor: pointer;
+}
+.user-profile-card form button:hover{
+    background-color: #ccc;
+}
