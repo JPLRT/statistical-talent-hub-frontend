@@ -12,7 +12,7 @@ const Admin = () => {
     useEffect(() => {
          const fetchUsers = async () => {
              try {
-                const response = await axios.get('http://localhost:5000/api/users');
+                const response = await axios.get('${process.env.REACT_APP_BASE_API_URL}/api/users');
                  setUsers(response.data);
             } catch (error) {
                  console.error('Error fetching users:', error);
@@ -26,7 +26,7 @@ const Admin = () => {
 
     const handleApprove = async (id) => {
         try {
-           await axios.put(`http://localhost:5000/api/users/${id}/approve`);
+           await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/users/${id}/approve`);
              const updatedUsers = users.map((user) => {
                if (user._id === id) {
                      return { ...user, isActive: true };

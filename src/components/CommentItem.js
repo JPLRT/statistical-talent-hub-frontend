@@ -17,7 +17,7 @@ const CommentItem = ({ comment }) => {
 
       const handleCommentCreated = async (newComment) => {
          try {
-              const response = await axios.get(`http://localhost:5000/api/comments?postId=${comment._id}`);
+              const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/comments?postId=${comment._id}`);
                 setReplies(response.data);
                 setShowReply(false)
            } catch (error) {
@@ -34,7 +34,7 @@ const CommentItem = ({ comment }) => {
 
      const handleDelete = async () => {
            try {
-               await axios.delete(`http://localhost:5000/api/comments/${comment._id}`);
+               await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/comments/${comment._id}`);
               window.location.reload();
             } catch (error) {
                  console.error('Error deleting comment:', error);

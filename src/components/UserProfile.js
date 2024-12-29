@@ -69,7 +69,7 @@ const UserProfile = ({ userId }) => {
                  });
                 profilePic = response.data.imageUrl;
             }
-         const response = await axios.put(`http://localhost:5000/api/users/${userId}`, { profile: { ...profileData, profilePic } });
+         const response = await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/users/${userId}`, { profile: { ...profileData, profilePic } });
           setUser(response.data);
           setIsEditing(false);
          setPreviewImage(null);

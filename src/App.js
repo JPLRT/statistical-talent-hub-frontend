@@ -16,7 +16,7 @@ function App() {
    const handleLogin = async (userId) => {
         localStorage.setItem('userId', userId);
          try {
-            const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
+            const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${userId}`);
             localStorage.setItem('isAdmin', response.data.isMentor);
               setIsAdmin(response.data.isAdmin);
         } catch (error) {

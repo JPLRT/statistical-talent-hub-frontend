@@ -10,7 +10,7 @@ const ProfileDetails = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                 const response = await axios.get(`http://localhost:5000/api/users/${id}`);
+                 const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${id}`);
                  setUser(response.data);
            } catch (err) {
                  console.error('Failed to load user data.');

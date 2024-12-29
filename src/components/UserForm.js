@@ -21,7 +21,7 @@ const UserForm = ({ onUserCreated }) => {
     const handleSubmit = async (e) => {
        e.preventDefault();
        try {
-           const response = await axios.post('http://localhost:5000/api/users', formData);
+           const response = await axios.post('${process.env.REACT_APP_BASE_API_URL}/api/users', formData);
             onUserCreated(response.data);
            setFormData({
                name: '',
