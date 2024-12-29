@@ -15,7 +15,7 @@ const PostForm = ({ onPostCreated }) => {
         if (file) {
             setPreviewImage(URL.createObjectURL(file));
         }
-        console.log('Image selected:', file); // Log the selected file
+        console.log('Image selected:', file);
     };
 
     const handleSubmit = async (e) => {
@@ -31,18 +31,18 @@ const PostForm = ({ onPostCreated }) => {
                 formData.append('image', image);
                 console.log('FormData being sent:', formData);
                 console.log('Image File:', image);
-                const response = await axios.post('http://localhost:5000/api/upload', formData, {
+                const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
                 imageUrl = response.data.imageUrl;
             }
-            const response = await axios.post('http://localhost:5000/api/posts', { user: userId, text, imageUrl });
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/posts`, { user: userId, text, imageUrl });
             onPostCreated(response.data);
             setText('');
             setImage(null);
-             setPreviewImage(null);
+            setPreviewImage(null);
             setError('');
         } catch (err) {
             if (err.response) {
@@ -64,19 +64,19 @@ const PostForm = ({ onPostCreated }) => {
                     onChange={(e) => setText(e.target.value)}
                     required
                 />
-                <div className="image-upload">
-                    <label htmlFor="image-upload" className="image-upload-label">Upload Image</label>
-                    <input
-                        type="file"
-                        id="image-upload"
-                        accept="image/*"
-                        onChange={handleImageChange}
+               <div className="image-upload">
+                   <label htmlFor="image-upload" className="image-upload-label">Upload Image</label>
+                  <input
+                      type="file"
+                       id="image-upload"
+                      accept="image/*"
+                       onChange={handleImageChange}
                     />
                </div>
-                {previewImage && <img src={previewImage} alt="Preview" className="preview-image" />}
-                <button type="submit">Post</button>
+                 {previewImage && <img src={previewImage} alt="Preview" className="preview-image" />}
+               <button type="submit">Post</button>
                 {error && <p className="error-msg">{error}</p>}
-            </form>
+           </form>
         </div>
     );
 };

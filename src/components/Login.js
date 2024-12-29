@@ -14,7 +14,7 @@ const Login = ({ onLogin }) => {
         setLoading(true)
         try {
             const emailTrim = email.toLowerCase().trim();
-            const response = await axios.post('http://localhost:5000/api/auth/login', { email: emailTrim });
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/login`, { email: emailTrim });
             onLogin(response.data.userId);
             setError('');
         } catch (err) {
