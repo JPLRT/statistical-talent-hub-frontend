@@ -1,83 +1,72 @@
-import React, { useState, useEffect } from 'react';
-    import { useNavigate } from 'react-router-dom';
-    import axios from 'axios';
+import React, { useState } from 'react';
+import axios from 'axios';
+import './Login.css'; // Import CSS file
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 
-    const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-     const [loginSuccess, setLoginSuccess] = useState(false)
-        const handleLogin = async (event) => {
-            event.preventDefault();
+const Login = ({ onLogin }) => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+ const handleSubmit = async (e) => {
+      e.preventDefault();
+    setLoading(true)
+     try {
+          const emailTrim = email.toLowerCase().trim();
+          const response = await axios.post('http://localhost:5000/api/auth/login', { email: emailTrim });
+         onLogin(response.data.userId);
+        setError('');
+    } catch (err) {
+        if (err.response) {
+             setError(err.response.data.msg);
+          }
+          else{
+             setError('An error occurred. Please try again.');
+          }
+      }
+     finally{
+        setLoading(false)
+      }
+};
+const capitalizeFirstLetter = (str) => {
+  if(!str){
+    return '';
+  }
+   return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
-            try{
-                console.log("Request config",{
-                    url: '/api/auth/login',
-                        method: 'POST',
-                        data: {email}
-                    })
-            const res = await axios.post('/api/auth/login', {email})
-             console.log("Response", res)
-               console.log("Response data", res.data);
-                if(res.status === 200 && res.data.message === "Login successful"){
-                    console.log("Status 200 received");
-                     console.log("LocalStorage before setting", localStorage.getItem('user'))
-                    localStorage.setItem('user', email);
-                     console.log("LocalStorage after setting", localStorage.getItem('user'))
-                    setLoginSuccess(true)
-                     console.log("Navigating to home page")
-                }else{
-                      setError("User not found, Contact admin to register")
-                }
-            }catch(err){
-                setError("User not found, Contact admin to register")
-                 console.log("Error in login", err.response)
-            }
-        };
+  return (
+      <div className="login-container">
+          <div className="login-card">
+              <div className="welcome-text">
+                  <div className="logo-container">
+                       <FontAwesomeIcon icon={faChartBar} size="3x" className="login-logo" />
+                    </div>
+                  <h1 className="welcome-heading">Welcome</h1>
+                  <div className="welcome-description-box">
+                     <p className="welcome-description"> {capitalizeFirstLetter("A Virtual Space for Students and Alumni of the Department of Statistics, Presidency College (Autonomous), Chennai")}</p>
+                   </div>
+              </div>
+              <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                      <label htmlFor="email">Email</label>
+                      <input
+                          type="email"
+                          id="email"
+                           placeholder="Your Email Address"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                      />
+                  </div>
+                 <button type="submit" className="login-btn" disabled={loading}>
+                     {loading ? 'Logging in...' : 'Login'}
+                 </button>
+                   {error && <p className="error-msg">{error}</p>}
+              </form>
+          </div>
+      </div>
+   );
+};
 
-        useEffect(()=> {
-           if(loginSuccess){
-                navigate('/home')
-                console.log("Navigating to home page")
-           }
-        }, [loginSuccess, navigate])
-
-    return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded shadow-md w-96">
-                <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-                Welcome to Statistical Talent Hub
-                </h1>
-                {error && <p style={{color: 'red'}}>{error}</p>}
-            <form onSubmit={handleLogin}>
-                <div className="mb-4">
-                    <label
-                    htmlFor="email"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    >
-                    Email
-                    </label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-            </div>
-            <div className="flex items-center justify-center">
-                <button
-                    type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Login
-                </button>
-            </div>
-        </form>
-    </div>
-        </div>
-    );
-    };
-
-    export default LoginPage;
+export default Login;
