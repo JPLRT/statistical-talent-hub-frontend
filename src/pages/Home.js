@@ -1,52 +1,64 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import Login from './components/Login';
-import Home from './pages/Home';
-import Admin from './pages/Admin';
-import ProfileDetails from './pages/ProfileDetails';
- import Layout from './components/Layout';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Post from '../components/Post';
+import PostForm from '../components/PostForm';
+import UserProfile from '../components/UserProfile';
+import CommunityMembers from '../components/CommunityMembers';
+import {  Link ,Route,Routes} from 'react-router-dom';
+import './Home.css';
 
-function App() {
-   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
-   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
- const navigate = useNavigate();
+const Home = () => {
+    const [posts, setPosts] = useState([]);
+   const userId = localStorage.getItem('userId');
 
-   const handleLogin = async (userId) => {
-        localStorage.setItem('userId', userId);
-         try {
-            const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
-            localStorage.setItem('isAdmin', response.data.isMentor);
-              setIsAdmin(response.data.isAdmin);
-        } catch (error) {
-            console.error('Error fetching user:', error);
-        }
+    useEffect(() => {
+        const fetchPosts = async () => {
+           try {
+                 const response = await axios.get('http://localhost:5000/api/posts');
+                setPosts(response.data);
+            } catch (error) {
+                 console.error('Error fetching posts:', error);
+            }
+        };
 
-       setLoggedIn(true);
-        navigate('/');
-  };
+       fetchPosts();
+   }, []);
 
-  return (
-       <Layout loggedIn={loggedIn} isAdmin={isAdmin}>
-          {loggedIn ? (
-              <Routes>
-                  <Route path="/*" element={<Home/>} />
-                  <Route path="/admin" element={<Admin />} />
-                 <Route path="/profile/:id" element={<ProfileDetails/>} />
-             </Routes>
-          ) : (
-              <Login onLogin={handleLogin} />
-          )}
-     </Layout>
+  const handlePostCreated = (newPost) => {
+        setPosts([newPost, ...posts]);
+    };
+   const handlePostDeleted = (postId) => {
+        setPosts(posts.filter(post => post._id !== postId));
+   };
+
+    return (
+        <div className="home-container">
+            <aside className="home-sidebar">
+                  {userId &&   <UserProfile userId={userId}/>}
+                   <Link to="/members" className="community-link">Community Members</Link>
+           </aside>
+           <main className="home-main-content">
+                 <Routes>
+                     <Route path="/" element={
+                          userId ? (
+                            <>
+                                 <h2 className="feed-title">Feed</h2>
+                                 <PostForm onPostCreated={handlePostCreated} />
+                                <div className="post-feed">
+                                     {posts.map(post => (
+                                           <Post key={post._id} post={post} onPostDeleted={handlePostDeleted} />
+                                      ))}
+                                  </div>
+                            </>
+                           ) : (
+                             <p>Please login to see the community</p>
+                        )
+                     } />
+                       <Route path="/members" element={<CommunityMembers />} />
+                 </Routes>
+           </main>
+      </div>
    );
-}
+};
 
-function AppWrapper() {
-  return (
-       <Router>
-            <App />
-       </Router>
-   );
-}
-export default AppWrapper;
+export default Home;
