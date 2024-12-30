@@ -5,104 +5,105 @@ import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 
 const Post = ({ post, onPostDeleted }) => {
-   const [comments, setComments] = useState([]);
-   const [showComments, setShowComments] = useState(false);
-  const userId = localStorage.getItem('userId');
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    const [comments, setComments] = useState([]);
+    const [showComments, setShowComments] = useState(false);
+     const userId = localStorage.getItem('userId');
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
-   useEffect(() => {
+
+      useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/comments?postId=${post._id}`);
-               setComments(response.data);
-            } catch (error) {
-                console.error('Error fetching comments:', error);
+               const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/comments?postId=${post._id}`);
+                setComments(response.data);
+           } catch (error) {
+               console.error('Error fetching comments:', error);
             }
-        };
+       };
         if(showComments){
-           fetchComments();
+          fetchComments();
        }
    }, [post._id,showComments]);
 
-    const handleCommentCreated = (newComment) => {
-      setComments([...comments, newComment]);
-   }
-
-    const handleCommentClick = () => {
+      const handleCommentCreated = (newComment) => {
+          setComments([...comments, newComment]);
+   };
+     const handleCommentClick = () => {
        setShowComments(!showComments);
-  };
+   };
 
     const formatDateTime = (dateString) => {
-      const date = new Date(dateString);
-      const formattedDate = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      const formattedTime = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-     return `${formattedDate} at ${formattedTime}`;
+        const date = new Date(dateString);
+         const formattedDate = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+         const formattedTime = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+       return `${formattedDate} at ${formattedTime}`;
    }
 
-   const linkify = (text) => {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.split(urlRegex).map((part, index) => {
-           if (urlRegex.test(part)) {
+  const linkify = (text) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.split(urlRegex).map((part, index) => {
+            if (urlRegex.test(part)) {
                 return (
                   <a href={part} key={index} target="_blank" rel="noopener noreferrer">
-                      {part}
-                  </a>
+                    {part}
+                   </a>
                 );
+             }
+            return part;
+       });
+   };
+
+    const applyBold = (text) => {
+        const boldRegex = /\*(.*?)\*/g;
+         return text.split(boldRegex).map((part, index) => {
+           if (boldRegex.test(part)) {
+               return <strong key={index}>{part}</strong>;
             }
            return part;
-      });
+        });
+    };
+
+   const handleDelete = async () => {
+        try {
+           await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/posts/${post._id}`);
+           onPostDeleted(post._id);
+      } catch (error) {
+           console.error('Error deleting post:', error);
+        }
     };
 
 
-     const applyBold = (text) => {
-         const boldRegex = /\*(.*?)\*/g;
-        return text.split(boldRegex).map((part, index) => {
-            if (boldRegex.test(part)) {
-               return <strong key={index}>{part}</strong>;
-            }
-             return part;
-         });
-     };
-    const handleDelete = async () => {
-        try {
-           await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/posts/${post._id}`);
-             onPostDeleted(post._id);
-       } catch (error) {
-           console.error('Error deleting post:', error);
-        }
-   };
-
    return (
-        <div className="post-container">
-             <div className="post-header">
-                   <div className='post-user-details'>
-                        {post.user && (
-                           <div className='default-profile-pic'>{post.user.name?.charAt(0).toUpperCase()}</div>
-                        )}
-                       <div className="user-name-tab" >{post.user?.name}</div>
-                   </div>
-                    {(post.user && (userId === post.user._id || isAdmin)) && (
-                       <button className='delete-btn' onClick={handleDelete}><i className="fas fa-trash"></i></button>
+       <div className="post-container">
+            <div className="post-header">
+                <div className='post-user-details'>
+                    {post.user && (
+                       <div className='default-profile-pic'>{post.user.name?.charAt(0).toUpperCase()}</div>
                     )}
-             </div>
-              <div className="post-content">
-                 {applyBold(linkify(post.text))}
-                 {post.imageUrl && <img src={post.imageUrl} alt="Post" className="post-image" />}
-             </div>
-              <div className='post-actions'>
-                   <button className='comment-btn' onClick={handleCommentClick}><i className="fas fa-comment"></i>Comment</button>
+                   <div className="user-name-tab" >{post.user?.name}</div>
                </div>
-               <div className='post-date'>
-                   {formatDateTime(post.createdAt)}
+               {(post.user && (userId === post.user._id || isAdmin)) && (
+                    <button className='delete-btn' onClick={handleDelete}><i className="fas fa-trash"></i></button>
+               )}
+          </div>
+           <div className="post-content">
+              {applyBold(linkify(post.text))}
+               {post.imageUrl && <img src={post.imageUrl} alt="Post" className="post-image" />}
+            </div>
+            <div className='post-actions'>
+                 <button className='comment-btn' onClick={handleCommentClick}><i className="fas fa-comment"></i>Comment</button>
+           </div>
+           <div className='post-date'>
+                {formatDateTime(post.createdAt)}
+          </div>
+          {showComments && (
+              <div className="comment-section">
+                   <CommentList comments={comments} />
+                    {userId && <CommentForm postId={post._id} onCommentCreated={handleCommentCreated} />}
                </div>
-             {showComments && (
-                 <div className="comment-section">
-                      <CommentList comments={comments} />
-                      {userId && <CommentForm postId={post._id} onCommentCreated={handleCommentCreated} />}
-                 </div>
-            )}
+           )}
        </div>
      );
-};
+ };
 
- export default Post;
+export default Post;
