@@ -29,55 +29,54 @@ const PostForm = ({ onPostCreated }) => {
             if (image) {
                 const formData = new FormData();
                 formData.append('image', image);
-                 console.log('FormData being sent:', formData);
+                console.log('FormData being sent:', formData);
                 console.log('Image File:', image);
                 const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                   },
+                    },
                 });
                 imageUrl = response.data.imageUrl;
             }
             const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/posts`, { user: userId, text, imageUrl });
-           console.log("New Post saved, and sending onPostCreated with", response.data);
-           onPostCreated(response.data);
-           setText('');
-           setImage(null);
-          setPreviewImage(null);
-           setError('');
+            onPostCreated(response.data);
+            setText('');
+            setImage(null);
+            setPreviewImage(null);
+            setError('');
         } catch (err) {
             if (err.response) {
-                 setError(err.response.data.msg);
+                setError(err.response.data.msg);
             }
             else {
-               setError('An error occurred. Please try again.');
-           }
-       }
+                setError('An error occurred. Please try again.');
+            }
+        }
     };
 
-     return (
+    return (
         <div className="post-form-container">
             <h2>Create a Post</h2>
             <form onSubmit={handleSubmit} className="post-form">
-                 <textarea
-                     placeholder="Write your post here..."
+                <textarea
+                    placeholder="Write your post here..."
                     value={text}
-                     onChange={(e) => setText(e.target.value)}
+                    onChange={(e) => setText(e.target.value)}
                     required
                 />
-                <div className="image-upload">
-                     <label htmlFor="image-upload" className="image-upload-label">Upload Image</label>
-                    <input
-                        type="file"
-                         id="image-upload"
-                       accept="image/*"
+               <div className="image-upload">
+                   <label htmlFor="image-upload" className="image-upload-label">Upload Image</label>
+                  <input
+                      type="file"
+                       id="image-upload"
+                      accept="image/*"
                        onChange={handleImageChange}
-                     />
+                    />
                </div>
-                {previewImage && <img src={previewImage} alt="Preview" className="preview-image" />}
-              <button type="submit">Post</button>
+                 {previewImage && <img src={previewImage} alt="Preview" className="preview-image" />}
+               <button type="submit">Post</button>
                 {error && <p className="error-msg">{error}</p>}
-            </form>
+           </form>
         </div>
     );
 };
