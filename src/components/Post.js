@@ -13,7 +13,7 @@ const Post = ({ post, onPostDeleted }) => {
   useEffect(() => {
        const fetchComments = async () => {
            try {
-              const response = await axios.get(`http://localhost:5000/api/comments?postId=${post._id}`);
+              const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/comments?postId=${post._id}`);
                setComments(response.data);
           } catch (error) {
                 console.error('Error fetching comments:', error);
@@ -40,7 +40,7 @@ const Post = ({ post, onPostDeleted }) => {
 
    const handleDelete = async () => {
        try {
-          await axios.delete(`http://localhost:5000/api/posts/${post._id}`);
+          await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/posts/${post._id}`);
            onPostDeleted(post._id);
        } catch (error) {
            console.error('Error deleting post:', error);
