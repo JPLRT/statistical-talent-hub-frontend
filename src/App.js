@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './pages/Home';
@@ -9,44 +9,42 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
+    const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
     const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
-    const navigate = useNavigate();
+   const navigate = useNavigate();
 
-     const handleLogin = async (userId) => {
+    const handleLogin = async (userId) => {
         localStorage.setItem('userId', userId);
-          try {
+         try {
             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${userId}`);
-               localStorage.setItem('isAdmin', response.data.isMentor);
-              setIsAdmin(response.data.isAdmin);
+            localStorage.setItem('isAdmin', response.data.isMentor);
+             setIsAdmin(response.data.isAdmin);
         } catch (error) {
             console.error('Error fetching user:', error);
          }
-
-       setLoggedIn(true);
+         setLoggedIn(true);
          navigate('/');
     };
-
     return (
-      <Layout loggedIn={loggedIn} isAdmin={isAdmin}>
-             {loggedIn ? (
+        <Layout loggedIn={loggedIn} isAdmin={isAdmin}>
+            {loggedIn ? (
                 <Routes>
-                   <Route path="/*" element={<Home/>} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="/profile/:id" element={<ProfileDetails/>} />
-              </Routes>
-           ) : (
-                <Login onLogin={handleLogin} />
-         )}
-    </Layout>
-    );
- }
-
-  function AppWrapper() {
-       return (
-          <Router>
-             <App />
-          </Router>
-       );
+                    <Route path="/*" element={<Home/>} />
+                     <Route path="/admin" element={<Admin />} />
+                      <Route path="/profile/:id" element={<ProfileDetails/>} />
+                </Routes>
+             ) : (
+                  <Login onLogin={handleLogin} />
+             )}
+       </Layout>
+      );
   }
-  export default AppWrapper;
+
+   function AppWrapper() {
+        return (
+            <Router>
+               <App />
+           </Router>
+      );
+   }
+    export default AppWrapper;
